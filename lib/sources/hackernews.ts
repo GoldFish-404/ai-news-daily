@@ -14,10 +14,10 @@ export async function fetchHackerNews(): Promise<Article[]> {
       "https://hacker-news.firebaseio.com/v0/topstories.json"
     ).then((r) => r.json());
 
-    const top100 = topIds.slice(0, 100);
+    const top50 = topIds.slice(0, 50);
 
     const items = await Promise.all(
-      top100.map((id) =>
+      top50.map((id) =>
         fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`).then(
           (r) => r.json()
         )
