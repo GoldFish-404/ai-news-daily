@@ -4,11 +4,11 @@ import { useState } from "react";
 import { ArticleRow } from "./page";
 
 const SOURCE_OPTIONS = [
-  { value: "all", label: "All Sources" },
-  { value: "arxiv", label: "arXiv" },
+  { value: "all", label: "全部来源" },
+  { value: "arxiv", label: "arXiv 论文" },
   { value: "hackernews", label: "Hacker News" },
-  { value: "rss", label: "Blogs" },
-  { value: "github", label: "GitHub Trending" },
+  { value: "rss", label: "官方博客" },
+  { value: "github", label: "GitHub 热门" },
 ];
 
 const sourceBadge = (source: string) => {
@@ -23,9 +23,9 @@ const sourceBadge = (source: string) => {
 
 const formatDate = (iso: string | null) => {
   if (!iso) return "";
-  return new Date(iso).toLocaleDateString("en-US", {
+  return new Date(iso).toLocaleDateString("zh-CN", {
     year: "numeric",
-    month: "short",
+    month: "long",
     day: "numeric",
   });
 };
@@ -33,10 +33,11 @@ const formatDate = (iso: string | null) => {
 export function NewsPage({ articles }: { articles: ArticleRow[] }) {
   const [filter, setFilter] = useState("all");
 
-  const today = new Date().toLocaleDateString("en-US", {
+  const today = new Date().toLocaleDateString("zh-CN", {
     year: "numeric",
     month: "long",
     day: "numeric",
+    weekday: "long",
   });
 
   const filtered =
@@ -47,7 +48,7 @@ export function NewsPage({ articles }: { articles: ArticleRow[] }) {
   return (
     <div className="mx-auto max-w-2xl px-4 py-10">
       <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-        AI Daily News
+        AI 每日资讯
       </h1>
       <p className="mt-1 text-sm text-zinc-500">{today}</p>
 
@@ -67,9 +68,9 @@ export function NewsPage({ articles }: { articles: ArticleRow[] }) {
 
       {filtered.length === 0 ? (
         <div className="mt-20 text-center text-zinc-400">
-          <p className="text-lg">No articles yet</p>
+          <p className="text-lg">暂无文章</p>
           <p className="mt-1 text-sm">
-            Articles appear after the first crawl at 9:00 AM
+            每天早上 9:00 自动抓取后更新
           </p>
         </div>
       ) : (

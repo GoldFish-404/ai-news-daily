@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AI Daily News",
-  description: "Daily AI news aggregated from arXiv, Hacker News, RSS and GitHub Trending",
+  title: "AI 每日资讯",
+  description: "聚合 arXiv、Hacker News、官方博客等 AI 资讯，每日自动更新",
 };
 
 export default function RootLayout({

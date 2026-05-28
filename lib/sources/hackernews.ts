@@ -43,7 +43,7 @@ export async function fetchHackerNews(): Promise<Article[]> {
       articles.push({
         title: item.title,
         url: item.url || `https://news.ycombinator.com/item?id=${item.id}`,
-        summary: `${item.score || 0} points · ${item.descendants || 0} comments${item.by ? ` · by ${item.by}` : ""}`,
+        summary: `${item.score || 0} 热度 · ${item.descendants || 0} 评论${item.by ? ` · 作者 ${item.by}` : ""}`,
         source: "hackernews",
         source_name: "Hacker News",
         published_at: new Date(item.time * 1000).toISOString(),
