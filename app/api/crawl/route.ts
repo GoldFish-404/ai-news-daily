@@ -16,11 +16,21 @@ export async function GET() {
 
   const all = [...arxiv, ...hn, ...rss, ...github];
 
-  const translated = await translateBatch(all.map((a) => a.title));
+  const translatedTitles = await translateBatch(all.map((a) => a.title));
 
+  const ghSummaries = github
+    .filter((a) => a.summary)
+    .map((a) => a.summary);
+  const translatedSummaries = await translateBatch(ghSummaries);
+
+  let si = 0;
   const articles = all.map((a, i) => ({
     ...a,
-    title: translated[i] || a.title,
+    title: translatedTitles[i] || a.title,
+    summary:
+      a.source === "github" && a.summary
+        ? translatedSummaries[si++] || a.summary
+        : a.summary,
   }));
 
   const saved = await saveArticles(articles);

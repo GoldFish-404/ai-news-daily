@@ -6,7 +6,7 @@ export async function saveArticles(articles: Article[]): Promise<number> {
 
   const { error } = await supabaseAdmin.from("articles").upsert(
     articles,
-    { onConflict: "url", ignoreDuplicates: true }
+    { onConflict: "url" }
   );
 
   if (error) {
