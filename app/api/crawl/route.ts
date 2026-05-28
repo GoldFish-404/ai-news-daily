@@ -4,6 +4,7 @@ import { fetchHackerNews } from "@/lib/sources/hackernews";
 import { fetchRSS } from "@/lib/sources/rss";
 import { fetchGitHubTrending } from "@/lib/sources/github";
 import { saveArticles } from "@/lib/dedup";
+import { translateBatch } from "@/lib/translate";
 
 export async function GET() {
   const [arxiv, hn, rss, github] = await Promise.all([
@@ -14,7 +15,15 @@ export async function GET() {
   ]);
 
   const all = [...arxiv, ...hn, ...rss, ...github];
-  const saved = await saveArticles(all);
+
+  const translated = await translateBatch(all.map((a) => a.title));
+
+  const articles = all.map((a, i) => ({
+    ...a,
+    title: translated[i] || a.title,
+  }));
+
+  const saved = await saveArticles(articles);
 
   return NextResponse.json({
     ok: true,
